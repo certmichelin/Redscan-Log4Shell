@@ -50,9 +50,13 @@ public class ScanApplication {
   private List<String> headers;
 
   /**
-   * Default contructor, that will load parameters and headers to fuzz from file.
+   * Default constructor, that will load parameters and headers to fuzz from file.
    */
   public ScanApplication() {
+    
+    //Avoid ssl issue.
+    Unirest.config().verifySsl(false);
+    
     // Init the headers list from the worldlist file.
     try {
       headers = new ArrayList<>();
